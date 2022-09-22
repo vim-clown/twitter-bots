@@ -7,7 +7,7 @@ def green_text():
     from main import sub_reddit
     for post in sub_reddit.hot(limit=5):
         print(post.title, post.url)
-        statuses = main.api1.user_timeline(count=20, include_rts=False, exclude_replies=True)
+        statuses = main.api1.user_timeline(count=40, include_rts=False, exclude_replies=True, screen_name='LeGreentext',tweet_mode='extended')
         if hasattr(post, "is_gallery"):
             print("Gallery post, sleeping.")
             time.sleep(300)
@@ -15,8 +15,12 @@ def green_text():
             print(f"Fetched {len(statuses)} statuses for checking post duplicate")
             status_list = []
             for status in statuses:
-                status_list.append(status.text.lower())
-            if post.title.lower() in status_list:
+                splitted_status = status.full_text.lower().split(" https://")
+                parts = [phrase for phrase in splitted_status]
+                final_part = parts[0] 
+                status_list.append(final_part)
+            print(status_list)
+            if (post.title.lower() in status_list):
                 print("False")
                 time.sleep(200)
             else:
