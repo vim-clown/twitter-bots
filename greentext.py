@@ -1,5 +1,4 @@
 def green_text():
-    import unicodedata
     from intra import start
     import main
     import time
@@ -20,7 +19,7 @@ def green_text():
                 splitted_status = status.full_text.lower().split(" https://")
                 parts = [phrase for phrase in splitted_status]
                 final_part = parts[0] 
-                status_list.append(unicodedata.normalize('NFKD', final_part).encode('ascii','ignore'))
+                status_list.append(final_part)
             print(status_list)
             if (post.title.lower() in status_list):
                 print("False")
