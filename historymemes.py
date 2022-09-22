@@ -1,4 +1,5 @@
 def history_memes():
+    import unicodedata
     from greentext import green_text
     import main
     import time
@@ -21,8 +22,8 @@ def history_memes():
                 parts2 = [W for W in splitted_part]
                 final_part2 = parts2[0]
                 print(final_part)
-                print(final_part2) 
-                if (post.title.lower() in final_part2):
+                print(unicodedata.normalize('NFKD', final_part2).encode('ascii','ignore')) 
+                if (post.title.lower() in unicodedata.normalize('NFKD', final_part2).encode('ascii','ignore')):
                     print("False")
                     time.sleep(201) 
                 else:
