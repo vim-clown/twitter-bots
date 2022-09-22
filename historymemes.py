@@ -17,8 +17,11 @@ def history_memes():
                 splitted_status = status.full_text.lower().split(" https://")
                 parts = [phrase for phrase in splitted_status]
                 final_part = parts[0]
+                splitted_part = final_part.split("\n")
+                parts2 = [W for W in splitted_part]
+                final_part2 = parts2[0]
                 print(final_part) 
-                if (post.title.lower() in final_part):
+                if (post.title.lower() in final_part2):
                     print("False")
                     time.sleep(201)  
                 else:
