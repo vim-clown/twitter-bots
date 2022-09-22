@@ -15,15 +15,32 @@ def history_memes():
         else:
             print(f"Fetched {len(statuses)} statuses for checking post duplicate")
             for status in statuses:
+                tweet_list = []
+                '''removing links'''
                 splitted_status = status.full_text.lower().split(" https://")
                 parts = [phrase for phrase in splitted_status]
                 final_part = parts[0]
                 splitted_part = final_part.split("\n")
                 parts2 = [W for W in splitted_part]
                 final_part2 = parts2[0]
-                print(final_part)
-                print(final_part2) 
-                if (post.title.lower() in final_part2):
+                
+                '''removing first element in the splitted tweet which may be >[word] , > or @''' 
+                processed_final_part2 = final_part2.split(" ")
+                final_part2_list = [word for word in processed_final_part2]
+                del final_part2_list[0]
+                final_part3 = " ".join(final_part2_list)
+                print(f"processed tweet: {final_part3}")
+                tweet_list.append(final_part3)
+                print(tweet_list)
+                
+                '''removing first element in the splitted post title''' 
+                processing_post = post.title.lower().split(" ")
+                processed_post_list = [word for word in processing_post]
+                del processed_post_list[0]
+                processed_post_title = " ".join(processed_post_list)
+                print(f"processed post tile: {processed_post_title}")
+                
+                if (processed_post_title in tweet_list):
                     print("False")
                     time.sleep(201) 
                 else:
@@ -48,7 +65,6 @@ def history_memes():
                         except Exception as shid:
                             print(shid)
                             print("couldn't reply")
-
                         ''' 
                         time.sleep(2)
                         try:
@@ -59,7 +75,6 @@ def history_memes():
                             print(repl)
                             print("couldn't hide reply")
                         '''
-                         
                         time.sleep(799)
                     except Exception as bruh_moment:
                         print(bruh_moment)

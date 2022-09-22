@@ -15,13 +15,29 @@ def green_text():
             print(f"Fetched {len(statuses)} statuses for checking post duplicate")
             status_list = []
             for status in statuses:
-                
+                '''removing links'''
                 splitted_status = status.full_text.lower().split(" https://")
                 parts = [phrase for phrase in splitted_status]
-                final_part = parts[0] 
-                status_list.append(final_part)
+                final_part = parts[0]
+                
+                '''removing first element in the splitted tweet which may be >[word] , > or @'''  
+                processed_final_part = final_part.split(" ")
+                processed_list = [word for word in processed_final_part]
+                del processed_list[0]
+                
+                '''I'm doing this because some posts start with >[word] which causes encoding issues'''
+                final = " ".join(processed_list)
+                status_list.append(final)
             print(status_list)
-            if (post.title.lower() in status_list):
+            
+            '''removing first element in the splitted post title''' 
+            processed_post_title = post.title.lower().split(" ")
+            post_title_list = [word for word in processed_post_title]
+            del post_title_list[0]
+            post_title = " ".join(post_title_list)
+            print(f"post title: {post_title}")
+            
+            if (post_title in status_list):
                 print("False")
                 time.sleep(200)
             else:
