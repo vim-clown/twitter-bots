@@ -20,10 +20,11 @@ def history_memes():
                 splitted_part = final_part.split("\n")
                 parts2 = [W for W in splitted_part]
                 final_part2 = parts2[0]
-                print(final_part) 
+                print(final_part)
+                print(final_part2) 
                 if (post.title.lower() in final_part2):
                     print("False")
-                    time.sleep(201)  
+                    time.sleep(201) 
                 else:
                     try:
                         print("True")
