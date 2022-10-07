@@ -6,7 +6,7 @@ def history_memes():
     import os
     import requests
     from main import subreddit
-    for post in subreddit.hot(limit=5):
+    for post in subreddit.new(limit=1):
         print(post.title, post.url)
         statuses = main.spi.user_timeline(count=20, include_rts=False, exclude_replies=True, screen_name='ThomasPepeson',tweet_mode='extended')
         if hasattr(post, "is_gallery"):
@@ -22,24 +22,19 @@ def history_memes():
                 final_part = parts[0]
                 splitted_part = final_part.split("\n")
                 parts2 = [W for W in splitted_part]
-                final_part2 = parts2[0]
-                
-                '''removing first element in the splitted tweet which may be >[word] , > or @''' 
-                processed_final_part2 = final_part2.split(" ")
-                final_part2_list = [word for word in processed_final_part2]
-                del final_part2_list[0]
-                final_part3 = " ".join(final_part2_list)
-                tweet_list.append(final_part3)
-            print(tweet_list)
-                
-            '''removing first element in the splitted post title''' 
-            processing_post = post.title.lower().split(" ")
-            processed_post_list = [word for word in processing_post]
-            del processed_post_list[0]
-            processed_post_title = " ".join(processed_post_list)
-            print(f"processed post tile: {processed_post_title}")
-                
-            if (processed_post_title in tweet_list):
+                final_part2 = parts2[0] 
+                '''removing flair'''
+                try:  
+                    processed_final_part2 = final_part2.split("] ")
+                    final_part2_list = [word for word in processed_final_part2]
+                    unflaired = final_part2_list[1]
+                    tweet_list.append(unflaired)
+                except Exception as no_flair:
+                    print(no_flair)
+                    unflaired = final_part2
+                    tweet_list.append(unflaired)
+            print(tweet_list) 
+            if (post.title.lower() in tweet_list):
                 print("False")
                 time.sleep(201) 
             else:
@@ -49,17 +44,22 @@ def history_memes():
                     r = requests.get(url, allow_redirects=True)
                     print(r)
                     open('sample1.jpg', 'wb').write(r.content)
-                    # response = b.shorten(post.permalink)
-                    this = main.spi.update_status_with_media(
+                    try:
+                        main_post = main.spi.update_status_with_media(
+                        status="["+post.author_flair_text+"] " + post.title + "\n" + "#meme #history",
+                        filename='sample1.jpg') 
+                        print("Posted")
+                    except Exception as no_flair_:
+                        print(no_flair_)
+                        main_post = main.spi.update_status_with_media(
                         status=post.title + "\n" + "#meme #history",
-                        filename='sample1.jpg')
-                    print("Posted")
-                    os.remove('sample1.jpg')
-                         
+                        filename='sample1.jpg') 
+                        print("Posted")
+                    os.remove('sample1.jpg') 
                     time.sleep(10)
                     try:
-                        that = main.c_api1.update_status(status="reddit.com" + post.permalink, 
-                        in_reply_to_status_id=this.id, auto_populate_reply_metadata=True)
+                        reply = main.c_api1.update_status(status="reddit.com" + post.permalink, 
+                        in_reply_to_status_id=main_post.id, auto_populate_reply_metadata=True)
                         print("replied")
                     except Exception as shid:
                         print(shid)
@@ -67,7 +67,7 @@ def history_memes():
                     ''' 
                     time.sleep(2)
                     try:
-                        main.apy.hidden_reply(tweet_id=that.id, hidden=True)
+                        main.apy.hidden_reply(tweet_id=reply.id, hidden=True)
                         print("reply hidden successfuly")
                             
                     except Exception as repl:
