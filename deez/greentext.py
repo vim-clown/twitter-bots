@@ -1,19 +1,18 @@
-def green_text():
-    from intra import start
-    import main
-    import time
-    import os
-    import requests
-    from main import sub_reddit
-    for post in sub_reddit.hot(limit=5):
+import deez
+import os
+import requests
+import time
+
+def green_text(): 
+    for post in deez.sub_reddit.hot(limit=5):
         print(post.title, post.url)
-        statuses = main.api1.user_timeline(count=20, include_rts=False, exclude_replies=True, screen_name='LeGreentext',tweet_mode='extended')
+        statuses = deez.nuts.greentext_api.user_timeline(count=20, include_rts=False, exclude_replies=True, screen_name='LeGreentext',tweet_mode='extended')
         if hasattr(post, "is_gallery"):
             print("Gallery post, sleeping.")
             time.sleep(300)
         else:
             print(f"Fetched {len(statuses)} statuses for checking post duplicate")
-            status_list = []
+            status_list = ['visited hell']
             for status in statuses:
                 '''removing links'''
                 splitted_status = status.full_text.lower().split(" https://")
@@ -49,15 +48,15 @@ def green_text():
                     print(r)
                     open('sample2.jpg', 'wb').write(r.content)
                     # response = b.shorten(post.permalink)
-                    this2 =  main.api1.update_status_with_media(
+                    main_post =  deez.nuts.greentext_api.update_status_with_media(
                         status=post.title, filename='sample2.jpg')
                     print("Posted")
                     os.remove('sample2.jpg')
 
                     time.sleep(10)
                     try:
-                        that2 = main.c_api1.update_status(status="reddit.com" + post.permalink, 
-                        in_reply_to_status_id=this2.id, auto_populate_reply_metadata=True)
+                        reply = deez.nuts.credits_api.update_status(status="reddit.com" + post.permalink, 
+                        in_reply_to_status_id=main_post.id, auto_populate_reply_metadata=True)
                         print("replied")
                     except Exception as shid:
                         print(shid)
@@ -66,7 +65,7 @@ def green_text():
                     '''
                     time.sleep(2)
                     try:
-                        main.apy2.hidden_reply(tweet_id=that2.id, hidden=True)
+                        deez.main.hide_greentext_credits.hidden_reply(tweet_id=reply.id, hidden=True)
                         print("reply hidden successfuly")
                             
                     except Exception as repl:
@@ -81,4 +80,4 @@ def green_text():
                     time.sleep(69)
                     green_text()
     
-    start()
+    deez.start()

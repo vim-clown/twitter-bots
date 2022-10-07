@@ -1,14 +1,12 @@
-def history_memes():
-    import unicodedata
-    from greentext import green_text
-    import main
-    import time
-    import os
-    import requests
-    from main import subreddit
-    for post in subreddit.new(limit=1):
+import deez
+import os
+import requests
+import time
+
+def history_memes(): 
+    for post in deez.subreddit.new(limit=1):
         print(post.title, post.url)
-        statuses = main.spi.user_timeline(count=20, include_rts=False, exclude_replies=True, screen_name='ThomasPepeson',tweet_mode='extended')
+        statuses = deez.nuts.history_api.user_timeline(count=20, include_rts=False, exclude_replies=True, screen_name='ThomasPepeson',tweet_mode='extended')
         if hasattr(post, "is_gallery"):
             print("Gallery post, sleeping.")
             time.sleep(300)
@@ -45,20 +43,20 @@ def history_memes():
                     print(r)
                     open('sample1.jpg', 'wb').write(r.content)
                     try:
-                        main_post = main.spi.update_status_with_media(
+                        main_post = deez.nuts.history_api.update_status_with_media(
                         status="["+post.author_flair_text+"] " + post.title + "\n" + "#meme #history",
                         filename='sample1.jpg') 
                         print("Posted")
                     except Exception as no_flair_:
                         print(no_flair_)
-                        main_post = main.spi.update_status_with_media(
+                        main_post = deez.nuts.history_api.update_status_with_media(
                         status=post.title + "\n" + "#meme #history",
                         filename='sample1.jpg') 
                         print("Posted")
                     os.remove('sample1.jpg') 
                     time.sleep(10)
                     try:
-                        reply = main.c_api1.update_status(status="reddit.com" + post.permalink, 
+                        reply = deez.nuts.credits_api.update_status(status="reddit.com" + post.permalink, 
                         in_reply_to_status_id=main_post.id, auto_populate_reply_metadata=True)
                         print("replied")
                     except Exception as shid:
@@ -67,7 +65,7 @@ def history_memes():
                     ''' 
                     time.sleep(2)
                     try:
-                        main.apy.hidden_reply(tweet_id=reply.id, hidden=True)
+                        deez.main.hide_history_credits.hidden_reply(tweet_id=reply.id, hidden=True)
                         print("reply hidden successfuly")
                             
                     except Exception as repl:
@@ -82,5 +80,5 @@ def history_memes():
                     history_memes()
                         
                         
-    green_text()                   
+    deez.green_text()                   
     

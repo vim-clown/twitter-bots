@@ -1,1 +1,1 @@
-worker: python main.py
+worker: python deez/__init__.py
