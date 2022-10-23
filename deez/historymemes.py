@@ -14,14 +14,14 @@ def history_memes():
             tweet_list = []
             print(f"Fetched {len(statuses)} statuses for checking post duplicate")
             for status in statuses: 
-                '''removing links'''
+        
                 splitted_status = status.full_text.lower().split(" https://")
                 parts = [phrase for phrase in splitted_status]
                 final_part = parts[0]
                 splitted_part = final_part.split("\n")
                 parts2 = [W for W in splitted_part]
                 final_part2 = parts2[0] 
-                '''removing flair'''
+
                 try:  
                     processed_final_part2 = final_part2.split("] ")
                     final_part2_list = [word for word in processed_final_part2]
@@ -62,16 +62,7 @@ def history_memes():
                     except Exception as shid:
                         print(shid)
                         print("couldn't reply")
-                    ''' 
-                    time.sleep(2)
-                    try:
-                        deez.main.hide_history_credits.hidden_reply(tweet_id=reply.id, hidden=True)
-                        print("reply hidden successfuly")
-                            
-                    except Exception as repl:
-                        print(repl)
-                        print("couldn't hide reply")
-                    '''
+
                     time.sleep(799)
                 except Exception as bruh_moment:
                     print(bruh_moment)
