@@ -27,7 +27,7 @@ def start(XAuth):
             if retweet_tweet(tweet) is not None:
                 success += 1
         print("We retweeted a total of %i out of %i tweets" % (success, len(result['statuses'])))
-        time.sleep(100)
+        time.sleep(200)
     try:
         for word in wordlist:
             auto_retweet(word, 1) 

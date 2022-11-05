@@ -12,12 +12,16 @@ def green_text():
             time.sleep(300)
         else:
             print(f"Fetched {len(statuses)} statuses for checking post duplicate")
-            status_list = []
+            status_list = ['visited hell']
             for status in statuses:
+                '''removing links'''
                 splitted_status = status.full_text.lower().split(" https://")
                 parts = [phrase for phrase in splitted_status]
                 final_part = parts[0]
-                  
+                
+                '''removing first element in the splitted tweet which may be >[word] , > or @.
+                I'm doing this because some posts start with >[word] which causes encoding issues
+                '''  
                 processed_final_part = final_part.split(" ")
                 processed_list = [word for word in processed_final_part]
                 del processed_list[0]
@@ -25,7 +29,8 @@ def green_text():
                 
                 status_list.append(final)
             print(status_list)
-
+            
+            '''removing first element in the splitted post title''' 
             processed_post_title = post.title.lower().split(" ")
             post_title_list = [word for word in processed_post_title]
             del post_title_list[0]
